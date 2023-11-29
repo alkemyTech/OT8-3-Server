@@ -1,0 +1,43 @@
+package com.alkemy.wallet.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.Data;
+import static jakarta.persistence.GenerationType.IDENTITY;
+
+
+@Entity
+@Data
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    private Long id;
+
+    @Column(length = 25, nullable = false)
+    private String firstName;
+
+    @Column(length = 25, nullable = false)
+    private String lastName;
+
+    @Column(length = 25, unique = true, nullable = false)
+    private String email;
+
+    @JsonIgnore
+    @Column(length = 25, nullable = false)
+    private String password;
+
+    private Boolean softDelete = false;
+
+    public User(String name, String username, String password, String email) {
+        this.firstName = name;
+        this.lastName = username;
+        this.password = password;
+        this.email = email;
+    }
+
+
+    public User() {
+
+    }
+}

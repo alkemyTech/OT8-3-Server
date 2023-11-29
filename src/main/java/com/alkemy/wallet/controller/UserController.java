@@ -31,7 +31,7 @@ public class UserController {
                 : new ResponseEntity<>(userList, HttpStatus.OK);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(Long id) {
         this.userService.softDeleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

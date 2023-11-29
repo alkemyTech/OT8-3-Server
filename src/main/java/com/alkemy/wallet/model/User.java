@@ -27,13 +27,15 @@ public class User {
     @Column(length = 25, nullable = false)
     private String password;
 
-    private Boolean softDelete = false;
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private Boolean softDelete;
 
     public User(String name, String username, String password, String email) {
         this.firstName = name;
         this.lastName = username;
         this.password = password;
         this.email = email;
+        this.softDelete = false;
     }
 
 

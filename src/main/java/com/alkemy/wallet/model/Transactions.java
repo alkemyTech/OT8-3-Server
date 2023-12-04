@@ -1,12 +1,14 @@
 package com.alkemy.wallet.model;
 
 import lombok.Data;
-import jakarta.persistence.*;
-import static jakarta.persistence.GenerationType.IDENTITY;
+
+import javax.persistence.*;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.util.Date;
 
 @Entity
-@Table(name = "Transactions")
 @Data
 
 public class Transactions {
@@ -14,19 +16,23 @@ public class Transactions {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @Column(name = "AMOUNT", nullable = false)
+    @Column( nullable = false)
     private Double amount;
 
-    private enum Type{ INCOME, PAYMENT, DEPOSIT};
-    @Enumerated (EnumType.STRING)
+    private enum type{ INCOME, PAYMENT, DEPOSIT};
+    @Enumerated(EnumType.STRING)
     private Enum type;
 
-    @Column(name = "DESCRIPTION", nullable = false)
+    @Column(nullable = false)
     private String description;
 
-    @Column(name = "TRANSACTION DATE")
+    @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date transactionDate;
+
+    @ManyToOne
+    @JoinColumn(name="account",referencedColumnName = "Id")
+    private Account account;
 
  public Transactions(Double amount, Enum type, String description, Date transactionDate){
      this.amount = amount;
@@ -34,7 +40,6 @@ public class Transactions {
      this.description = description;
      this.transactionDate= transactionDate;
  }
-
 public Transactions(){
 
 }

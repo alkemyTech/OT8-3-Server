@@ -2,14 +2,13 @@ package com.alkemy.wallet.model;
 
 import com.alkemy.wallet.enums.Type;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
-import static javax.persistence.GenerationType.IDENTITY;
+import static jakarta.persistence.GenerationType.IDENTITY;
 
 import java.util.Date;
 
 @Entity
-
 public class Transactions {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -28,9 +27,9 @@ public class Transactions {
     @Temporal(TemporalType.TIMESTAMP)
     private Date transactionDate;
 
-    @ManyToOne
-    @JoinColumn(name = "account_id", referencedColumnName = "Id")
-    private Account account;
+//    @ManyToOne
+//    @JoinColumn(name = "account_id", referencedColumnName = "Id")
+//    private Account account;
 
     public Transactions(Double amount, Type type, String description, Date transactionDate){
      this.amount = amount;

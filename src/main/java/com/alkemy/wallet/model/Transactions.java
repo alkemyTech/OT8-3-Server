@@ -1,5 +1,7 @@
 package com.alkemy.wallet.model;
 
+import com.alkemy.wallet.enums.Type;
+
 import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -16,9 +18,8 @@ public class Transactions {
     @Column( nullable = false)
     private Double amount;
 
-    private enum type{ INCOME, PAYMENT, DEPOSIT};
     @Enumerated(EnumType.STRING)
-    private Enum type;
+    private Type type;
 
     @Column(nullable = false)
     private String description;
@@ -31,7 +32,7 @@ public class Transactions {
     @JoinColumn(name = "account_id", referencedColumnName = "Id")
     private Account account;
 
-    public Transactions(Double amount, Enum type, String description, Date transactionDate){
+    public Transactions(Double amount, Type type, String description, Date transactionDate){
      this.amount = amount;
      this.type = type;
      this.description = description;

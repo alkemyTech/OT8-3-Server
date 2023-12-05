@@ -1,7 +1,5 @@
 package com.alkemy.wallet.model;
 
-import lombok.Data;
-
 import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -9,7 +7,6 @@ import static javax.persistence.GenerationType.IDENTITY;
 import java.util.Date;
 
 @Entity
-@Data
 
 public class Transactions {
     @Id
@@ -31,10 +28,10 @@ public class Transactions {
     private Date transactionDate;
 
     @ManyToOne
-    @JoinColumn(name="account",referencedColumnName = "Id")
+    @JoinColumn(name = "account_id", referencedColumnName = "Id")
     private Account account;
 
- public Transactions(Double amount, Enum type, String description, Date transactionDate){
+    public Transactions(Double amount, Enum type, String description, Date transactionDate){
      this.amount = amount;
      this.type = type;
      this.description = description;

@@ -21,7 +21,6 @@ public class UserService {
         return this.userRepository.findBySoftDeleteNot(true);
     }
 
-    @Transactional
     public void softDeleteById(Long id) {
         Optional<User> user = this.userRepository.findById(id);
         if(user.get().getSoftDelete().equals(true)){

@@ -1,6 +1,6 @@
 package com.alkemy.wallet.model;
 
-import com.alkemy.wallet.enums.Type;
+import com.alkemy.wallet.enums.TypeEnum;
 
 import jakarta.persistence.*;
 
@@ -18,7 +18,7 @@ public class Transactions {
     private Double amount;
 
     @Enumerated(EnumType.STRING)
-    private Type type;
+    private TypeEnum typeEnum;
 
     @Column(nullable = false)
     private String description;
@@ -31,9 +31,9 @@ public class Transactions {
 //    @JoinColumn(name = "account_id", referencedColumnName = "Id")
 //    private Account account;
 
-    public Transactions(Double amount, Type type, String description, Date transactionDate){
+    public Transactions(Double amount, TypeEnum typeEnum, String description, Date transactionDate){
      this.amount = amount;
-     this.type = type;
+     this.typeEnum = typeEnum;
      this.description = description;
      this.transactionDate= transactionDate;
  }

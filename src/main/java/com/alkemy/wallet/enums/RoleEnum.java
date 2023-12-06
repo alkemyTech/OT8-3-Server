@@ -1,5 +1,5 @@
 package com.alkemy.wallet.enums;
 
-public enum Role {
+public enum RoleEnum {
     ADMIN, USER
 }

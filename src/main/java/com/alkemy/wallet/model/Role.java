@@ -1,11 +1,11 @@
 package com.alkemy.wallet.model;
 
+import com.alkemy.wallet.enums.RoleEnum;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
-@Entity
 public class Role {
 
     @Id
@@ -15,7 +15,7 @@ public class Role {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private com.alkemy.wallet.enums.Role name;
+    private RoleEnum name;
 
     @Column
     private String description;
@@ -26,7 +26,7 @@ public class Role {
     @Column
     private Timestamp updateDate;
 
-    public Role(com.alkemy.wallet.enums.Role name, String description, Timestamp creationDate, Timestamp updateDate) {
+    public Role(RoleEnum name, String description, Timestamp creationDate, Timestamp updateDate) {
         this.name = name;
         this.description = description;
         this.creationDate = creationDate;

@@ -5,9 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.alkemy.wallet.model.User;
-import org.webjars.NotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -20,13 +21,12 @@ public class UserService {
         return this.userRepository.findBySoftDeleteNot(true);
     }
 
-
-    @Transactional
     public void softDeleteById(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("User not found with id: " + id));
-        user.setSoftDelete(true);
-        userRepository.save(user);
+        Optional<User> user = this.userRepository.findById(id);
+        if(user.get().getSoftDelete().equals(true)){
+            throw new EntityNotFoundException("User not found");
+        }
+        user.get().setSoftDelete(true);
     }
 
 }

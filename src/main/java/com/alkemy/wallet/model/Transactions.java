@@ -27,9 +27,9 @@ public class Transactions {
     @Temporal(TemporalType.TIMESTAMP)
     private Date transactionDate;
 
-//    @ManyToOne
-//    @JoinColumn(name = "account_id", referencedColumnName = "Id")
-//    private Account account;
+    @ManyToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "Id")
+     private Account account;
 
     public Transactions(Double amount, Type type, String description, Date transactionDate){
      this.amount = amount;

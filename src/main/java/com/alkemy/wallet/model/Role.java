@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import java.sql.Timestamp;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
+@Entity
 public class Role {
 
     @Id

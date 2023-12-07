@@ -27,6 +27,18 @@ public class UserService {
             throw new EntityNotFoundException("User not found");
         }
         user.get().setSoftDelete(true);
+        this.userRepository.save(user.get());
+    }
+
+    public User getUserById(Long id) {
+        Optional<User> user = this.userRepository.findById(id);
+        if(user.isEmpty()){
+            throw new EntityNotFoundException("User not found");
+        }
+        if(user.get().getSoftDelete().equals(true)){
+            throw new EntityNotFoundException("User not found");
+        }
+        return user.get();
     }
 
 }

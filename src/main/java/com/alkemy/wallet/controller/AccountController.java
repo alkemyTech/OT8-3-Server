@@ -1,6 +1,6 @@
 package com.alkemy.wallet.controller;
 
-import com.alkemy.wallet.dto.AccountDto;
+import com.alkemy.wallet.model.Account;
 import com.alkemy.wallet.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,16 +15,16 @@ import java.util.List;
 
 @RestController
 @Validated
-@RequestMapping("/account")
+@RequestMapping("accounts")
 public class AccountController {
 
     @Autowired
     private AccountService accountService;
 
-    @GetMapping("/account/{user}")
-    public ResponseEntity<List<AccountDto>> getAccountsByUserId(@PathVariable Long id) {
-        List<AccountDto> accountsDto = accountService.getAccountsByUserId(id);
-        return new ResponseEntity<>(accountsDto, HttpStatus.OK);
+    @GetMapping("{id}")
+    public ResponseEntity<List<Account>> getAccountsByUserId(@PathVariable Long id) {
+        List<Account> account = accountService.getAccountsByUserId(id);
+        return new ResponseEntity<>(account, HttpStatus.OK);
     }
 }
 

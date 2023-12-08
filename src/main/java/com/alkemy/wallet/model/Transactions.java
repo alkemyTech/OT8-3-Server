@@ -3,12 +3,14 @@ package com.alkemy.wallet.model;
 import com.alkemy.wallet.enums.Type;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 import java.util.Date;
 
 @Entity
+@Data
 public class Transactions {
     @Id
     @GeneratedValue(strategy = IDENTITY)

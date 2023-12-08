@@ -2,6 +2,7 @@ package com.alkemy.wallet.model;
 
 import com.alkemy.wallet.enums.Currency;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
+@Data
 public class Account {
     @Id
     @GeneratedValue(strategy = IDENTITY)

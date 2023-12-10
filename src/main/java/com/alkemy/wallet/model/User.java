@@ -3,6 +3,9 @@ package com.alkemy.wallet.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
+
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -28,6 +31,9 @@ public class User {
 
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean softDelete;
+
+    @OneToMany(mappedBy = "user")
+    private List<Account> accounts;
 
     public User(String name, String username, String password, String email) {
         this.firstName = name;

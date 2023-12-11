@@ -1,6 +1,6 @@
 package com.alkemy.wallet.service;
 
-import com.alkemy.wallet.DTO.TransactionsDTO;
+import com.alkemy.wallet.DTO.TransactionsDto;
 import com.alkemy.wallet.model.Account;
 import com.alkemy.wallet.model.Transactions;
 import com.alkemy.wallet.model.User;
@@ -20,16 +20,16 @@ public class TransactionsService {
     private TransactionsRepository transactionsRepository;
     private UserRepository userRepository;
 
-    public List<TransactionsDTO> getTransactionsByUserId(Long id){
+    public List<TransactionsDto> getTransactionsByUserId(Long id) {
         Optional<User> userOptional = userRepository.findById(id);
-        if(userOptional.isPresent()){
-            User user=userOptional.get();
-            List<Account>accounts=user.getAccounts();
-            List<TransactionsDTO> transactionsDTO=new ArrayList<>();
-            for(Account account:accounts){
-                List<Transactions>transactions=account.getTransactions();
-                for(Transactions transaction:transactions){
-                    TransactionsDTO transactionDTO=new TransactionsDTO(
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            List<Account> accounts = user.getAccounts();
+            List<TransactionsDto> transactionsDTO = transactionsRepository.getTransactionsByUserId(user.getId());
+            for (Account account : accounts) {
+                List<Transactions> transactions = account.getTransactions();
+                for (Transactions transaction : transactions) {
+                    TransactionsDto transactionDTO = new TransactionsDto(
                             account.getId(),
                             transaction.getId(),
                             transaction.getAmount(),

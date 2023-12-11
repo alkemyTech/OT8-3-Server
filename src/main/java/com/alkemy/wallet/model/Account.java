@@ -38,7 +38,7 @@ public class Account {
     private List<FixedTermDeposit> fixedTermDeposits;
 
     @ManyToOne
-    @JoinColumn(name="user_Id", referencedColumnName = "Id")
+    @JoinColumn(name = "userId")
     private User user;
 
     @Column

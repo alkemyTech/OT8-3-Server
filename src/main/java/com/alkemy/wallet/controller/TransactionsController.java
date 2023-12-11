@@ -1,8 +1,6 @@
 package com.alkemy.wallet.controller;
 
-import com.alkemy.wallet.DTO.TransactionsDTO;
-import com.alkemy.wallet.model.Account;
-import com.alkemy.wallet.model.Transactions;
+import com.alkemy.wallet.DTO.TransactionsDto;
 import com.alkemy.wallet.service.TransactionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,8 +22,8 @@ public class TransactionsController {
     private TransactionsService transactionsService;
 
         @GetMapping("{id}")
-        public ResponseEntity<List<TransactionsDTO>> getTransactionsByUserId(@PathVariable Long id) {
-            List<TransactionsDTO> transactionsDTO = transactionsService.getTransactionsByUserId(id);
+        public ResponseEntity<List<TransactionsDto>> getTransactionsByUserId(@PathVariable Long id) {
+            List<TransactionsDto> transactionsDTO = transactionsService.getTransactionsByUserId(id);
             return new ResponseEntity<>(transactionsDTO, HttpStatus.OK);
         }
 }

@@ -1,14 +1,14 @@
 package com.alkemy.wallet.repository;
 
 
-import com.alkemy.wallet.DTO.TransactionsDTO;
+import com.alkemy.wallet.DTO.TransactionsDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface TransactionsRepository extends JpaRepository<TransactionsDTO, Long> {
+public interface TransactionsRepository extends JpaRepository<TransactionsDto, Long> {
 
-    List<TransactionsDTO> getTransactionsByUserId(Long id);
+    List<TransactionsDto>getTransactionsByUserId(Long id);
 }

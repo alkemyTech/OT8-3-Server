@@ -30,7 +30,7 @@ public class Transactions {
     private Date transactionDate;
 
     @ManyToOne
-    @JoinColumn(name = "account_Id", referencedColumnName = "Id")
+    @JoinColumn(name = "accountId")
      private Account account;
 
     public Transactions(Double amount, TypeEnum typeEnum, String description, Date transactionDate){

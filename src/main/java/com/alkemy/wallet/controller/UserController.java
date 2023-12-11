@@ -1,5 +1,6 @@
 package com.alkemy.wallet.controller;
 
+import com.alkemy.wallet.apidoc.UserDoc;
 import com.alkemy.wallet.model.User;
 import com.alkemy.wallet.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
@@ -15,7 +16,7 @@ import java.util.List;
 @RestController
 @Validated
 @RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-public class UserController {
+public class UserController implements UserDoc {
 
     @Autowired
     private UserService userService;

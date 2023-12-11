@@ -1,13 +1,14 @@
 package com.alkemy.wallet.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.sql.Timestamp;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
-@Table(name= "fixed_term_deposits")
+@Data
 public class FixedTermDeposit {
 
     @Id

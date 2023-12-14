@@ -30,11 +30,15 @@ public class User implements UserDetails {
     private String email;
 
     @JsonIgnore
-    @Column(length = 25, nullable = false)
+    @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean softDelete;
+
+    @ManyToOne
+    @JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")
+    private Role role;
 
     public User(String name, String username, String password, String email) {
         this.firstName = name;
@@ -51,7 +55,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ADMIN"));   //TODO aca tengo que agregar ROLE despues de hacer el import multitabla
+        return List.of(new SimpleGrantedAuthority(role.getName().name()));
     }
 
     @Override
@@ -78,4 +82,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

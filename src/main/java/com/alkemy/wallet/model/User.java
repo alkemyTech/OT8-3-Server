@@ -36,6 +36,9 @@ public class User implements UserDetails {
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean softDelete;
 
+    @OneToMany
+    private List<Account> account;
+
     public User(String name, String username, String password, String email) {
         this.firstName = name;
         this.lastName = username;

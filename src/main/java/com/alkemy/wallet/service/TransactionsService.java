@@ -24,7 +24,7 @@ public class TransactionsService {
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            List<Account> accounts = user.getAccounts();
+            List<Account> accounts = user.getAccount();
             List<TransactionsDto> transactionsDTO = transactionsRepository.getTransactionsByUserId(user.getId());
             for (Account account : accounts) {
                 List<Transactions> transactions = account.getTransactions();

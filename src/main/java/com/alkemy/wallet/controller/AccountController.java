@@ -15,13 +15,13 @@ import java.util.List;
 
 @RestController
 @Validated
-@RequestMapping("accounts")
+@RequestMapping("/accounts")
 public class AccountController {
 
     @Autowired
     private AccountService accountService;
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<List<Account>> getAccountsByUserId(@PathVariable Long id) {
         List<Account> account = accountService.getAccountsByUserId(id);
         return new ResponseEntity<>(account, HttpStatus.OK);

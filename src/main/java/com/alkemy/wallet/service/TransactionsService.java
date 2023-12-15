@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -82,6 +83,12 @@ public class TransactionsService {
         return userTransactions.stream()
                 .map(this::convertToTransactionDTO)
                 .collect(Collectors.toList());
+    }
+    public TransactionDTO getTransactionById(Long id) {
+        Optional<Transactions> transactionOptional = transactionsRepository.findById(id);
+        Transactions transaction = transactionOptional.orElseThrow(() -> new IllegalStateException("Transaction not found"));
+
+        return convertToTransactionDTO(transaction);
     }
 
     private TransactionDTO convertToTransactionDTO(Transactions transaction) {

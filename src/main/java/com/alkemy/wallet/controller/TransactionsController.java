@@ -36,4 +36,8 @@ public class TransactionsController {
     public List<TransactionDTO> getTransactionsByUserId(@PathVariable Long userId) {
         return transactionsService.getTransactionsByUserId(userId);
     }
+    @GetMapping("/{id}/")
+    public TransactionDTO getTransactionById(@PathVariable Long id) {
+        return transactionsService.getTransactionById(id);
+    }
 }

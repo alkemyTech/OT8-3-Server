@@ -1,7 +1,7 @@
 package com.alkemy.wallet.controller;
 
-import com.alkemy.wallet.dto.PaymentDTO;
-import com.alkemy.wallet.dto.PaymentResponseDTO;
+import com.alkemy.wallet.dto.DepositPaymentDTO;
+import com.alkemy.wallet.dto.DepositPaymentResponseDTO;
 import com.alkemy.wallet.service.TransactionsService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,11 @@ public class TransactionsController {
     }
 
     @PostMapping("/payment")
-    public ResponseEntity<PaymentResponseDTO> payment(@RequestBody @Valid PaymentDTO paymentDTO){
-        return new ResponseEntity<>(transactionsService.payment(paymentDTO), HttpStatus.CREATED);
+    public ResponseEntity<DepositPaymentResponseDTO> payment(@RequestBody @Valid DepositPaymentDTO depositPaymentDTO){
+        return new ResponseEntity<>(transactionsService.payment(depositPaymentDTO), HttpStatus.CREATED);
+    }
+    @PostMapping("/deposit")
+    public ResponseEntity<DepositPaymentResponseDTO> deposit(@RequestBody @Valid DepositPaymentDTO depositPaymentDTO){
+        return new ResponseEntity<>(transactionsService.deposit(depositPaymentDTO), HttpStatus.CREATED);
     }
 }

@@ -1,6 +1,6 @@
 package com.alkemy.wallet.dto;
 
-public class PaymentResponseDTO {
+public class DepositPaymentResponseDTO {
     private String accountId;
     private TransactionDTO transaction;
 

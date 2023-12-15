@@ -1,8 +1,6 @@
 package com.alkemy.wallet.service;
 
-import com.alkemy.wallet.dto.PaymentDTO;
-import com.alkemy.wallet.dto.PaymentResponseDTO;
-import com.alkemy.wallet.dto.TransactionDTO;
+import com.alkemy.wallet.dto.*;
 import com.alkemy.wallet.enums.TypeEnum;
 import com.alkemy.wallet.model.Account;
 import com.alkemy.wallet.model.Transactions;
@@ -23,14 +21,14 @@ public class TransactionsService {
         this.transactionsRepository = transactionsRepository;
     }
 
-    public PaymentResponseDTO payment(PaymentDTO paymentDTO){
-       Account accountIsValid = accountRepository.findById(paymentDTO.getAccountId()).orElseThrow(()->new IllegalStateException("Account not found"));
-        Transactions transaction = new Transactions (paymentDTO.getAmount(), TypeEnum.PAYMENT, paymentDTO.getDescription(), new Date());
+    public DepositPaymentResponseDTO payment(DepositPaymentDTO depositPaymentDTO){
+       Account accountIsValid = accountRepository.findById(depositPaymentDTO.getAccountId()).orElseThrow(()->new IllegalStateException("Account not found"));
+        Transactions transaction = new Transactions (depositPaymentDTO.getAmount(), TypeEnum.PAYMENT, depositPaymentDTO.getDescription(), new Date());
         transaction.setAccount(accountIsValid);
-          if(accountIsValid.getBalance() >= paymentDTO.getAmount()){
-           if(accountIsValid.getCurrency().name().equals(paymentDTO.getCurrency())){
+          if(accountIsValid.getBalance() >= depositPaymentDTO.getAmount()){
+           if(accountIsValid.getCurrency().name().equals(depositPaymentDTO.getCurrency())){
                transactionsRepository.save(transaction);
-               accountIsValid.setBalance(accountIsValid.getBalance() - paymentDTO.getAmount());
+               accountIsValid.setBalance(accountIsValid.getBalance() - depositPaymentDTO.getAmount());
                accountRepository.save(accountIsValid);
            } // aca el else de account currency is valid
        }
@@ -40,10 +38,31 @@ public class TransactionsService {
         transactionDTO.setDescription(transaction.getDescription());
         transactionDTO.setType(transaction.getTypeEnum().name());
 
-        PaymentResponseDTO paymentResponseDTO = new PaymentResponseDTO();
-        paymentResponseDTO.setAccountId(accountIsValid.getId().toString());
-        paymentResponseDTO.setTransaction(transactionDTO);
+        DepositPaymentResponseDTO depositPaymentResponseDTO = new DepositPaymentResponseDTO();
+        depositPaymentResponseDTO.setAccountId(accountIsValid.getId().toString());
+        depositPaymentResponseDTO.setTransaction(transactionDTO);
 
-       return paymentResponseDTO;
+       return depositPaymentResponseDTO;
+    }
+    public DepositPaymentResponseDTO deposit(DepositPaymentDTO depositPaymentDTO){
+        Account accountIsValid = accountRepository.findById(depositPaymentDTO.getAccountId()).orElseThrow(()->new IllegalStateException("Account not found"));
+        Transactions transaction = new Transactions (depositPaymentDTO.getAmount(), TypeEnum.DEPOSIT, depositPaymentDTO.getDescription(), new Date());
+        transaction.setAccount(accountIsValid);
+            if(accountIsValid.getCurrency().name().equals(depositPaymentDTO.getCurrency())){
+                transactionsRepository.save(transaction);
+                accountIsValid.setBalance(accountIsValid.getBalance() + depositPaymentDTO.getAmount());
+                accountRepository.save(accountIsValid);
+            } // aca el else de account currency is valid
+        TransactionDTO transactionDTO = new TransactionDTO();
+        transactionDTO.setTransactionDate(transaction.getTransactionDate());
+        transactionDTO.setAmount(transaction.getAmount());
+        transactionDTO.setDescription(transaction.getDescription());
+        transactionDTO.setType(transaction.getTypeEnum().name());
+
+        DepositPaymentResponseDTO depositPaymentResponseDTO = new DepositPaymentResponseDTO();
+        depositPaymentResponseDTO.setAccountId(accountIsValid.getId().toString());
+        depositPaymentResponseDTO.setTransaction(transactionDTO);
+
+        return depositPaymentResponseDTO;
     }
 }

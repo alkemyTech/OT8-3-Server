@@ -1,7 +1,7 @@
 package com.alkemy.wallet.dto;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-public class PaymentDTO {
+public class DepositPaymentDTO {
     private Long accountId;
     private String typeTransaction;
     @NotNull

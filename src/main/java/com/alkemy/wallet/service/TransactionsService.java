@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 public class TransactionsService {
@@ -64,5 +67,29 @@ public class TransactionsService {
         depositPaymentResponseDTO.setTransaction(transactionDTO);
 
         return depositPaymentResponseDTO;
+    }
+    public List<TransactionDTO> getTransactionsByUserId(Long userId) {
+        List<Account> userAccounts = accountRepository.getAccountsByUserId(userId);
+
+        if (userAccounts.isEmpty()) {
+            throw new IllegalStateException("Account not found");
+        }
+
+        Account userAccount = userAccounts.get(0);
+
+        List<Transactions> userTransactions = transactionsRepository.findByAccountId(userAccount.getId());
+
+        return userTransactions.stream()
+                .map(this::convertToTransactionDTO)
+                .collect(Collectors.toList());
+    }
+
+    private TransactionDTO convertToTransactionDTO(Transactions transaction) {
+        TransactionDTO transactionDTO = new TransactionDTO();
+        transactionDTO.setTransactionDate(transaction.getTransactionDate());
+        transactionDTO.setAmount(transaction.getAmount());
+        transactionDTO.setDescription(transaction.getDescription());
+        transactionDTO.setType(transaction.getTypeEnum().name());
+        return transactionDTO;
     }
 }

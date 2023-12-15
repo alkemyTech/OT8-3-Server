@@ -2,16 +2,16 @@ package com.alkemy.wallet.controller;
 
 import com.alkemy.wallet.dto.DepositPaymentDTO;
 import com.alkemy.wallet.dto.DepositPaymentResponseDTO;
+import com.alkemy.wallet.dto.TransactionDTO;
 import com.alkemy.wallet.service.TransactionsService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/transactions", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -31,5 +31,9 @@ public class TransactionsController {
     @PostMapping("/deposit")
     public ResponseEntity<DepositPaymentResponseDTO> deposit(@RequestBody @Valid DepositPaymentDTO depositPaymentDTO){
         return new ResponseEntity<>(transactionsService.deposit(depositPaymentDTO), HttpStatus.CREATED);
+    }
+    @GetMapping("/{userId}")
+    public List<TransactionDTO> getTransactionsByUserId(@PathVariable Long userId) {
+        return transactionsService.getTransactionsByUserId(userId);
     }
 }

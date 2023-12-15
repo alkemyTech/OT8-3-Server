@@ -30,11 +30,11 @@ public class TransactionsService {
         Transactions transaction = new Transactions (depositPaymentDTO.getAmount(), TypeEnum.PAYMENT, depositPaymentDTO.getDescription(), new Date());
         transaction.setAccount(accountIsValid);
           if(accountIsValid.getBalance() >= depositPaymentDTO.getAmount()){
-           if(accountIsValid.getCurrency().name().equals(depositPaymentDTO.getCurrency())){
+           if(accountIsValid.getCurrencyEnum().name().equals(depositPaymentDTO.getCurrency())){
                transactionsRepository.save(transaction);
                accountIsValid.setBalance(accountIsValid.getBalance() - depositPaymentDTO.getAmount());
                accountRepository.save(accountIsValid);
-           } throw new IllegalArgumentException("Invalid currency");
+           } else {throw new IllegalArgumentException("Invalid currency");}
        }
         TransactionDTO transactionDTO = new TransactionDTO();
         transactionDTO.setTransactionDate(transaction.getTransactionDate());
@@ -52,7 +52,7 @@ public class TransactionsService {
         Account accountIsValid = accountRepository.findById(depositPaymentDTO.getAccountId()).orElseThrow(()->new IllegalStateException("Account not found"));
         Transactions transaction = new Transactions (depositPaymentDTO.getAmount(), TypeEnum.DEPOSIT, depositPaymentDTO.getDescription(), new Date());
         transaction.setAccount(accountIsValid);
-            if(accountIsValid.getCurrency().name().equals(depositPaymentDTO.getCurrency())){
+            if(accountIsValid.getCurrencyEnum().name().equals(depositPaymentDTO.getCurrency())){
                 transactionsRepository.save(transaction);
                 accountIsValid.setBalance(accountIsValid.getBalance() + depositPaymentDTO.getAmount());
                 accountRepository.save(accountIsValid);

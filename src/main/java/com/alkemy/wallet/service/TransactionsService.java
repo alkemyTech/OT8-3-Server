@@ -30,7 +30,7 @@ public class TransactionsService {
                transactionsRepository.save(transaction);
                accountIsValid.setBalance(accountIsValid.getBalance() - depositPaymentDTO.getAmount());
                accountRepository.save(accountIsValid);
-           } // aca el else de account currency is valid
+           } throw new IllegalArgumentException("Invalid currency");
        }
         TransactionDTO transactionDTO = new TransactionDTO();
         transactionDTO.setTransactionDate(transaction.getTransactionDate());
@@ -52,7 +52,7 @@ public class TransactionsService {
                 transactionsRepository.save(transaction);
                 accountIsValid.setBalance(accountIsValid.getBalance() + depositPaymentDTO.getAmount());
                 accountRepository.save(accountIsValid);
-            } // aca el else de account currency is valid
+            }
         TransactionDTO transactionDTO = new TransactionDTO();
         transactionDTO.setTransactionDate(transaction.getTransactionDate());
         transactionDTO.setAmount(transaction.getAmount());

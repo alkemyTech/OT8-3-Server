@@ -1,8 +1,5 @@
 package com.alkemy.wallet.service;
-import com.alkemy.wallet.dto.AccountRequestDTO;
-import com.alkemy.wallet.dto.AccountResponseDTO;
-import com.alkemy.wallet.dto.AccountUpdateRequestDTO;
-import com.alkemy.wallet.dto.AccountUpdateResponseDTO;
+import com.alkemy.wallet.dto.*;
 import com.alkemy.wallet.enums.CurrencyEnum;
 import com.alkemy.wallet.model.Account;
 import com.alkemy.wallet.model.User;
@@ -50,16 +47,23 @@ public class AccountService {
         return response;
     }
 
-    public AccountUpdateResponseDTO updateAccount (AccountUpdateRequestDTO accountUpdateRequestDTO, String name){
-        User user =  userRepository.findById(Long.decode(accountUpdateRequestDTO.getUserAuthenticated())).orElseThrow(()-> new IllegalStateException("User not found"));
-        Account accounts= (Account) accountRepository.getAccountsByUserId(user.getId());
-        if(Objects.equals(accounts.getUser().getId(), user.getId()) && AccountUpdateResponseDTO.getNewTransactionLimit() > 0.0) {
-            accounts.setTransactionLimit(AccountUpdateResponseDTO.getNewTransactionLimit());
-            Account accountNewLimit = accountRepository.save(accounts);
-            AccountUpdateResponseDTO accountUpdateResponse = new AccountUpdateResponseDTO();
-            accountUpdateResponse.setNewTransactionLimit(accountNewLimit.getTransactionLimit());
-            return accountUpdateResponse;
+    public AccountUpdateResponseDTO updateAccount (AccountUpdateDTO accountUpdateDTO, String userAuthEmail, String accountId){
+        User userAuth = userRepository.findByEmail(userAuthEmail)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        Account account = accountRepository.getAccountsByUserId(userAuth.getId())
+                .stream()
+                .filter(a -> a.getId().equals(Long.decode(accountId)))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("no se encontro algo"));
+
+        if(account.getUser() != null && account.getId() != null) {
+                account.setTransactionLimit(accountUpdateDTO.getTransactionLimit());
+                Account accountNewLimit = accountRepository.save(account);
+                AccountUpdateResponseDTO accountUpdateResponse = new AccountUpdateResponseDTO();
+                accountUpdateResponse.setNewTransactionLimit(accountNewLimit.getTransactionLimit());
+                return accountUpdateResponse;
+            } else {throw new IllegalStateException("no anda nada");}
         }
     }
-}
 
+//setTransactionLimit(AccountUpdateResponseDTO)

@@ -1,9 +1,6 @@
 package com.alkemy.wallet.controller;
 
-import com.alkemy.wallet.dto.AccountRequestDTO;
-import com.alkemy.wallet.dto.AccountResponseDTO;
-import com.alkemy.wallet.dto.AccountUpdateRequestDTO;
-import com.alkemy.wallet.dto.AccountUpdateResponseDTO;
+import com.alkemy.wallet.dto.*;
 import com.alkemy.wallet.model.Account;
 import com.alkemy.wallet.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +33,10 @@ public class AccountController {
         return new ResponseEntity<>(accountService.createAccount(accountRequestDTO), HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<AccountResponseDTO>updateAccount(@RequestBody AccountUpdateRequestDTO accountUpdateRequestDTO){
+    @PatchMapping("/{accountId}")
+    public ResponseEntity<AccountUpdateResponseDTO>updateAccount(@RequestBody AccountUpdateDTO accountUpdateDTO,@PathVariable String accountId){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        this.accountService.updateAccount(accountUpdateRequestDTO, authentication.getName());
+        this.accountService.updateAccount(accountUpdateDTO, authentication.getName(), accountId);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }

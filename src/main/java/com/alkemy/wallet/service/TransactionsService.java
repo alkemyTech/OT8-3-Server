@@ -122,12 +122,43 @@ public class TransactionsService {
                 .filter(a -> a.getCurrencyEnum().equals(CurrencyEnum.ARS))
                 .toList()
                 .get(0);
-        Account accountUserReceiver = accountRepository.getAccountsByUserId(Long.decode(incomeTransactionDTO.getAccountId()))
+        Account accountUserReceiver = accountRepository.findById(Long.decode(incomeTransactionDTO.getAccountId()))
                 .stream()
                 .filter(a -> a.getCurrencyEnum().equals(CurrencyEnum.ARS))
                 .toList()
                 .get(0);
-        if (accountUserSender != null && accountUserReceiver != null && !(accountUserSender.getId().equals(accountUserReceiver.getId()))) {
+        if (accountUserSender != null && accountUserReceiver != null && !(accountUserSender.getId().equals(accountUserReceiver.getId()))
+                && ! (accountUserSender.getTransactionLimit() <= incomeTransactionDTO.getAmount() )) {
+            Transactions sendTransaction = new Transactions(incomeTransactionDTO.getAmount(), TypeEnum.PAYMENT, incomeTransactionDTO.getDescription(), new Date());
+            sendTransaction.setAccount(accountUserSender);
+            if (accountUserSender.getBalance() >= incomeTransactionDTO.getAmount()) {
+                transactionsRepository.save(sendTransaction);
+                accountUserSender.setBalance(accountUserSender.getBalance() - incomeTransactionDTO.getAmount());
+                accountRepository.save(accountUserSender);
+
+                Transactions receiveTransaction = new Transactions(incomeTransactionDTO.getAmount(), TypeEnum.INCOME, incomeTransactionDTO.getDescription(), new Date());
+                receiveTransaction.setAccount(accountUserReceiver);
+                transactionsRepository.save(receiveTransaction);
+                accountUserReceiver.setBalance(accountUserReceiver.getBalance() + incomeTransactionDTO.getAmount());
+                accountRepository.save(accountUserReceiver);
+            } else {throw new IllegalStateException("el balance esta mal");}
+        }else {throw new IllegalStateException("lo otro esta mal");}
+    }
+    public void sendUsd(IncomeTransactionDTO incomeTransactionDTO, String userNameAuth) {
+        User userSender = userRepository.findByEmail(userNameAuth)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        Account accountUserSender = accountRepository.getAccountsByUserId(userSender.getId())
+                .stream()
+                .filter(a -> a.getCurrencyEnum().equals(CurrencyEnum.USD))
+                .toList()
+                .get(0);
+        Account accountUserReceiver = accountRepository.findById(Long.decode(incomeTransactionDTO.getAccountId()))
+                .stream()
+                .filter(a -> a.getCurrencyEnum().equals(CurrencyEnum.USD))
+                .toList()
+                .get(0);
+        if (accountUserSender != null && accountUserReceiver != null && !(accountUserSender.getId().equals(accountUserReceiver.getId()))
+                && ! (accountUserSender.getTransactionLimit() <= incomeTransactionDTO.getAmount() )) {
             Transactions sendTransaction = new Transactions(incomeTransactionDTO.getAmount(), TypeEnum.PAYMENT, incomeTransactionDTO.getDescription(), new Date());
             sendTransaction.setAccount(accountUserSender);
             if (accountUserSender.getBalance() >= incomeTransactionDTO.getAmount()) {

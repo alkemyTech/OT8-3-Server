@@ -49,4 +49,10 @@ public class TransactionsController {
         this.transactionsService.sendArs(incomeTransactionDTO , authentication.getName());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+    @PostMapping("/sendUsd")
+    public ResponseEntity<?> sendUsd(@RequestBody IncomeTransactionDTO incomeTransactionDTO){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        this.transactionsService.sendUsd(incomeTransactionDTO , authentication.getName());
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 }

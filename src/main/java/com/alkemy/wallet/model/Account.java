@@ -1,6 +1,6 @@
 package com.alkemy.wallet.model;
 
-import com.alkemy.wallet.enums.Currency;
+import com.alkemy.wallet.enums.CurrencyEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,7 +17,7 @@ public class Account {
     private Long Id;
 
     @Enumerated(EnumType.STRING)
-    private Currency currency;
+    private CurrencyEnum currencyEnum;
 
     @Column(nullable = false)
     private Double transactionLimit;
@@ -44,12 +44,20 @@ public class Account {
     @Column
     private Boolean softDelete = false;
 
-    public Account(Currency currency, Double transactionLimit, Double balance, Timestamp creationDate, Timestamp updateDate) {
-        this.currency = currency;
+    @PrePersist
+    protected void onCreate(){
+        this.creationDate = new Timestamp(System.currentTimeMillis());
+        this.updateDate = new Timestamp(System.currentTimeMillis());
+    }
+    @PreUpdate
+    protected void onUpdate(){
+        this.updateDate = new Timestamp(System.currentTimeMillis());
+    }
+    public Account(User user, CurrencyEnum currencyEnum, Double transactionLimit) {
+        this.user = user;
+        this.currencyEnum = currencyEnum;
         this.transactionLimit = transactionLimit;
-        this.balance = balance;
-        this.creationDate = creationDate;
-        this.updateDate = updateDate;
+        this.balance = 0.0;
     }
 
     public Account() {

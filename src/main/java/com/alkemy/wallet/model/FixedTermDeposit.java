@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -22,7 +23,8 @@ public class FixedTermDeposit {
     private Double interest;
 
     @Column
-    private Timestamp creationDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date creationDate;
 
     @Column
     private Timestamp closingDate;

@@ -1,6 +1,5 @@
 package com.alkemy.wallet.service;
-import com.alkemy.wallet.dto.AccountRequestDTO;
-import com.alkemy.wallet.dto.AccountResponseDTO;
+import com.alkemy.wallet.dto.*;
 import com.alkemy.wallet.enums.CurrencyEnum;
 import com.alkemy.wallet.model.Account;
 import com.alkemy.wallet.model.User;
@@ -10,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 
 @Service
@@ -47,4 +46,24 @@ public class AccountService {
         response.setTransactionLimit(savedAccount.getTransactionLimit());
         return response;
     }
-}
+
+    public AccountUpdateResponseDTO updateAccount (AccountUpdateDTO accountUpdateDTO, String userAuthEmail, String accountId){
+        User userAuth = userRepository.findByEmail(userAuthEmail)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        Account account = accountRepository.getAccountsByUserId(userAuth.getId())
+                .stream()
+                .filter(a -> a.getId().equals(Long.decode(accountId)))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("no se encontro algo"));
+
+        if(account.getUser() != null && account.getId() != null) {
+                account.setTransactionLimit(accountUpdateDTO.getTransactionLimit());
+                Account accountNewLimit = accountRepository.save(account);
+                AccountUpdateResponseDTO accountUpdateResponse = new AccountUpdateResponseDTO();
+                accountUpdateResponse.setNewTransactionLimit(accountNewLimit.getTransactionLimit());
+                return accountUpdateResponse;
+            } else {throw new IllegalStateException("no anda nada");}
+        }
+    }
+
+//setTransactionLimit(AccountUpdateResponseDTO)

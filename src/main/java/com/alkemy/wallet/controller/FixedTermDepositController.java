@@ -1,6 +1,6 @@
 package com.alkemy.wallet.controller;
-import com.alkemy.wallet.dto.SimulateFixedTermDepositRequestDto;
-import com.alkemy.wallet.dto.SimulateFixedTermDepositResponseDto;
+import com.alkemy.wallet.dto.FixedTermDepositRequestDto;
+import com.alkemy.wallet.dto.FixedTermDepositResponseDto;
 import com.alkemy.wallet.service.FixedTermDepositService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,8 +20,14 @@ public class FixedTermDepositController {
         this.fixedTermDepositService = fixedTermDepositService;
     }
     @PostMapping("/simulate")
-    public ResponseEntity<SimulateFixedTermDepositResponseDto> simulateFixedTermDeposit(@RequestBody SimulateFixedTermDepositRequestDto fixedTermRequest){
-        SimulateFixedTermDepositResponseDto fixedTermResponse = fixedTermDepositService.simulateFixedTermDeposit(fixedTermRequest);
+    public ResponseEntity<FixedTermDepositResponseDto> simulateFixedTermDeposit(@RequestBody FixedTermDepositRequestDto fixedTermRequest){
+        FixedTermDepositResponseDto fixedTermResponse = fixedTermDepositService.simulateFixedTermDeposit(fixedTermRequest);
         return new ResponseEntity<>(fixedTermResponse, HttpStatus.OK);
     }
+    @PostMapping()
+    public ResponseEntity<FixedTermDepositResponseDto> fixedTermDeposit(@RequestBody FixedTermDepositRequestDto fixedTermRequest){
+        FixedTermDepositResponseDto fixedTermResponse = fixedTermDepositService.simulateFixedTermDeposit(fixedTermRequest);
+        return new ResponseEntity<>(fixedTermResponse, HttpStatus.OK);
+    }
+
 }

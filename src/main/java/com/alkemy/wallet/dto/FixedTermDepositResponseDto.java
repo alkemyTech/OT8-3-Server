@@ -2,14 +2,14 @@ package com.alkemy.wallet.dto;
 
 import java.sql.Timestamp;
 
-public class SimulateFixedTermDepositResponseDto {
+public class FixedTermDepositResponseDto {
     private Double investedAmount;
     private Timestamp creationDate;
     private Timestamp closingDate;
     private Double totalInterest;
     private Double totalValue;
 
-    public SimulateFixedTermDepositResponseDto(Double investedAmount, Timestamp creationDate, Timestamp closingDate, Double totalInterest, Double totalValue) {
+    public FixedTermDepositResponseDto(Double investedAmount, Timestamp creationDate, Timestamp closingDate, Double totalInterest, Double totalValue) {
         this.investedAmount = investedAmount;
         this.creationDate = creationDate;
         this.closingDate = closingDate;
@@ -17,7 +17,7 @@ public class SimulateFixedTermDepositResponseDto {
         this.totalValue = totalValue;
     }
 
-    public SimulateFixedTermDepositResponseDto() {
+    public FixedTermDepositResponseDto() {
     }
 
     public Double getInvestedAmount() {

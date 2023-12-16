@@ -1,15 +1,15 @@
 package com.alkemy.wallet.dto;
 
-public class SimulateFixedTermDepositRequestDto {
+public class FixedTermDepositRequestDto {
     Double amount;
     Integer days;
 
-    public SimulateFixedTermDepositRequestDto(Double amount, Integer days) {
+    public FixedTermDepositRequestDto(Double amount, Integer days) {
         this.amount = amount;
         this.days = days;
     }
 
-    public SimulateFixedTermDepositRequestDto() {
+    public FixedTermDepositRequestDto() {
     }
 
     public Double getAmount() {

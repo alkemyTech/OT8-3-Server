@@ -197,7 +197,6 @@ VALUES
 (12000, 'Gastos de viaje', '2023-12-16 19:20:08.322000', 'PAYMENT', 1),
 (3000, 'Ingreso por servicios', '2023-12-16 19:22:24.435000', 'INCOME', 2);
 
-
 //////////////SCRIPT SQL TABLA TRANSACTIONS//////////
 INSERT INTO chanchez_squad3.account(balance, creation_date, currency_enum, transaction_limit, update_date, user_id)
 VALUES
@@ -245,3 +244,4 @@ VALUES
 (4850, '2023-12-15 20:25:44.377000', 'USD', 1000, '2023-12-16 22:28:35.279000', 46),
 (2796, '2023-12-15 20:25:27.763000', 'ARS', 300000, '2023-12-15 22:43:06.307000', 47),
 (1204, '2023-12-15 20:25:57.453000', 'USD', 1000, '2023-12-16 19:19:57.121000', 48);
+

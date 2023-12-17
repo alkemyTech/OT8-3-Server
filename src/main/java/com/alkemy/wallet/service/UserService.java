@@ -1,5 +1,10 @@
 package com.alkemy.wallet.service;
 
+import com.alkemy.wallet.dto.AccountUpdateDTO;
+import com.alkemy.wallet.dto.AccountUpdateResponseDTO;
+import com.alkemy.wallet.dto.UserRequestDTO;
+import com.alkemy.wallet.dto.UserResponseDTO;
+import com.alkemy.wallet.model.Account;
 import com.alkemy.wallet.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,5 +45,32 @@ public class UserService {
         }
         return user.get();
     }
+
+    public UserResponseDTO updateUser (UserRequestDTO userRequest, String userAuthEmail, Long userId){
+        User userAuth = userRepository.findByEmail(userAuthEmail)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        if(user.getId() != null && userAuth.getEmail() != null) {
+            if(userRequest.getFirstName() != null && !userRequest.getFirstName().isBlank()) {
+                user.setFirstName(userRequest.getFirstName());
+            }
+            if(userRequest.getLastName() != null && !userRequest.getLastName().isBlank()) {
+                user.setLastName(userRequest.getLastName());
+            }
+            if(userRequest.getPassword() != null && !userRequest.getPassword().isBlank()) {
+                user.setPassword(userRequest.getPassword());
+            }
+            userRepository.save(user);
+            return new UserResponseDTO(
+                    user.getEmail(),
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getRole().getUpdateDate()
+            );
+        } else {throw new IllegalStateException("no anda nada");}
+    }
+
+
 
 }

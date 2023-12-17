@@ -1,25 +1,26 @@
 package com.alkemy.wallet.service;
 
-import com.alkemy.wallet.dto.AccountUpdateDTO;
-import com.alkemy.wallet.dto.AccountUpdateResponseDTO;
 import com.alkemy.wallet.dto.UserRequestDTO;
 import com.alkemy.wallet.dto.UserResponseDTO;
-import com.alkemy.wallet.model.Account;
 import com.alkemy.wallet.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.alkemy.wallet.model.User;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserService {
+    private PasswordEncoder passwordEncoder;
+    private UserRepository userRepository;
 
-    @Autowired
-    UserRepository userRepository;
+    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+    }
 
     @Transactional(readOnly = true)
     public List<User> findAll() {
@@ -51,7 +52,7 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        if(user.getId() != null && userAuth.getEmail() != null) {
+        if(user.getId().equals(userAuth.getId())) {
             if(userRequest.getFirstName() != null && !userRequest.getFirstName().isBlank()) {
                 user.setFirstName(userRequest.getFirstName());
             }
@@ -59,7 +60,7 @@ public class UserService {
                 user.setLastName(userRequest.getLastName());
             }
             if(userRequest.getPassword() != null && !userRequest.getPassword().isBlank()) {
-                user.setPassword(userRequest.getPassword());
+                user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
             }
             userRepository.save(user);
             return new UserResponseDTO(
@@ -68,7 +69,7 @@ public class UserService {
                     user.getLastName(),
                     user.getRole().getUpdateDate()
             );
-        } else {throw new IllegalStateException("no anda nada");}
+        } else {throw new IllegalStateException("id no corresponde a la cuenta");}
     }
 
 

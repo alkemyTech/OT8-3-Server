@@ -60,6 +60,8 @@ public class AuthService {
         String jwt = jwtService.generateToken(user);
         JwtResponseDTO jwtResponseDTO = new JwtResponseDTO();
         jwtResponseDTO.setEmail(login.getEmail());
+        jwtResponseDTO.setFirstName(user.getFirstName());
+        jwtResponseDTO.setLastName(user.getLastName());
         jwtResponseDTO.setToken(jwt);
         return jwtResponseDTO;
     }

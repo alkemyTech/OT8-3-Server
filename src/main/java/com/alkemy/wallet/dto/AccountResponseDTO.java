@@ -6,6 +6,16 @@ public class AccountResponseDTO {
     private Double balance;
     private String userId;
 
+    public AccountResponseDTO(String currency, Double transactionLimit, Double balance, String userId) {
+        this.currency = currency;
+        this.transactionLimit = transactionLimit;
+        this.balance = balance;
+        this.userId = userId;
+    }
+
+    public AccountResponseDTO() {
+    }
+
     public String getCurrency() {
         return currency;
     }

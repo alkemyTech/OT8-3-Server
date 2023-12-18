@@ -33,11 +33,20 @@ public class AccountService {
         this.fixedTermDepositRepository = fixedTermDepositRepository;
     }
 
-    public List<Account> getAccountsByUserId(Long id){
-
-        return accountRepository.getAccountsByUserId(id);
+    public List<AccountResponseDTO> getAccountsByUserId(String userAuthEmail){
+        User userAuth = userRepository.findByEmail(userAuthEmail)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        List<Account> listAccounts = accountRepository.getAccountsByUserId(userAuth.getId());
+        List<AccountResponseDTO> listAccountsDTOs = listAccounts.stream().map(account -> {
+            return new AccountResponseDTO(
+                    account.getCurrencyEnum().name(),
+                    account.getTransactionLimit(),
+                    account.getBalance(),
+                    account.getUser().getId().toString()
+            );
+        }).toList();
+        return listAccountsDTOs;
     }
-
     public AccountResponseDTO createAccount (AccountRequestDTO accountRequestDTO){
         Double transactionLimit = accountRequestDTO.getCurrency().toUpperCase().equals("ARS") ? 300000.0 : 1000.0;
         User user =  userRepository.findById(Long.decode(accountRequestDTO.getUserAuthenticated())).orElseThrow(()-> new IllegalStateException("User not found"));

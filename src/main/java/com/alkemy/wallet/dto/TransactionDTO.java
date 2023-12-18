@@ -8,6 +8,16 @@ public class TransactionDTO {
     private String description;
     private Date transactionDate;
 
+    public TransactionDTO(Double amount, String type, String description, Date transactionDate) {
+        this.amount = amount;
+        this.type = type;
+        this.description = description;
+        this.transactionDate = transactionDate;
+    }
+
+    public TransactionDTO() {
+    }
+
     public Double getAmount() {
         return amount;
     }

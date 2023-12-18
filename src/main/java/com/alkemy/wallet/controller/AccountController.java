@@ -39,5 +39,10 @@ public class AccountController {
         this.accountService.updateAccount(accountUpdateDTO, authentication.getName(), accountId);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
+    @GetMapping("/balance")
+    public ResponseEntity<BalanceResponseDTO> getBalance() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return new ResponseEntity<>(accountService.getBalance(authentication.getName()), HttpStatus.OK);
+    }
 }
 

@@ -50,4 +50,5 @@ public class FixedTermDepositDTO {
     public void setClosingDate(Date closingDate) {
         this.closingDate = closingDate;
     }
+
 }

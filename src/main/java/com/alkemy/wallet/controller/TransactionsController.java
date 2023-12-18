@@ -35,9 +35,10 @@ public class TransactionsController {
     public ResponseEntity<DepositPaymentResponseDTO> deposit(@RequestBody @Valid DepositPaymentDTO depositPaymentDTO){
         return new ResponseEntity<>(transactionsService.deposit(depositPaymentDTO), HttpStatus.CREATED);
     }
-    @GetMapping("/{userId}")
-    public List<TransactionDTO> getTransactionsByUserId(@PathVariable Long userId) {
-        return transactionsService.getTransactionsByUserId(userId);
+    @GetMapping()
+    public List<TransactionDTO> getTransactionsByUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return transactionsService.getTransactionsByUserId(authentication.getName());
     }
     @GetMapping("/{id}/")
     public TransactionDTO getTransactionById(@PathVariable Long id) {

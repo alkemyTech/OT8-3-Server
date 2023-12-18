@@ -82,8 +82,10 @@ public class TransactionsService {
         return depositPaymentResponseDTO;
     }
 
-    public List<TransactionDTO> getTransactionsByUserId(Long userId) {
-        List<Account> userAccounts = accountRepository.getAccountsByUserId(userId);
+    public List<TransactionDTO> getTransactionsByUserId( String userAuthEmail) {
+        User userAuth = userRepository.findByEmail(userAuthEmail)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        List<Account> userAccounts = accountRepository.getAccountsByUserId(userAuth.getId());
 
         if (userAccounts.isEmpty()) {
             throw new IllegalStateException("Account not found");

@@ -21,13 +21,12 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<List<Account>> getAccountsByUserId(@PathVariable Long id) {
-        List<Account> account = accountService.getAccountsByUserId(id);
+    @GetMapping()
+    public ResponseEntity<List<AccountResponseDTO>> getAccountsByUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        List<AccountResponseDTO> account = accountService.getAccountsByUserId(authentication.getName());
         return new ResponseEntity<>(account, HttpStatus.OK);
     }
-
-
     @PostMapping()
     public ResponseEntity<AccountResponseDTO> createAccount (@RequestBody AccountRequestDTO accountRequestDTO){
         return new ResponseEntity<>(accountService.createAccount(accountRequestDTO), HttpStatus.CREATED);

@@ -5,12 +5,14 @@ public class AccountResponseDTO {
     private Double transactionLimit;
     private Double balance;
     private String userId;
+    private String accountId;
 
-    public AccountResponseDTO(String currency, Double transactionLimit, Double balance, String userId) {
+    public AccountResponseDTO(String currency, Double transactionLimit, Double balance, String userId,String accountId) {
         this.currency = currency;
         this.transactionLimit = transactionLimit;
         this.balance = balance;
         this.userId = userId;
+        this.accountId = accountId;
     }
 
     public AccountResponseDTO() {
@@ -46,5 +48,13 @@ public class AccountResponseDTO {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 }

@@ -64,11 +64,11 @@ public class TransactionsService {
         Account accountIsValid = accountRepository.findById(depositPaymentDTO.getAccountId()).orElseThrow(() -> new IllegalStateException("Account not found"));
         Transactions transaction = new Transactions(depositPaymentDTO.getAmount(), TypeEnum.DEPOSIT, depositPaymentDTO.getDescription(), new Date());
         transaction.setAccount(accountIsValid);
-        if (accountIsValid.getCurrencyEnum().name().equals(depositPaymentDTO.getCurrency())) {
-            transactionsRepository.save(transaction);
-            accountIsValid.setBalance(accountIsValid.getBalance() + depositPaymentDTO.getAmount());
-            accountRepository.save(accountIsValid);
-        }
+
+        transactionsRepository.save(transaction);
+        accountIsValid.setBalance(accountIsValid.getBalance() + depositPaymentDTO.getAmount());
+        accountRepository.save(accountIsValid);
+
         TransactionDTO transactionDTO = new TransactionDTO();
         transactionDTO.setTransactionDate(transaction.getTransactionDate());
         transactionDTO.setAmount(transaction.getAmount());
@@ -81,6 +81,7 @@ public class TransactionsService {
 
         return depositPaymentResponseDTO;
     }
+
 
     public List<TransactionDTO> getTransactionsByUserId( String userAuthEmail) {
         User userAuth = userRepository.findByEmail(userAuthEmail)

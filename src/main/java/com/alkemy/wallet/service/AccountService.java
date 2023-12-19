@@ -115,6 +115,11 @@ public class AccountService {
                 .filter(transactions -> transactions.getTypeEnum().equals(TypeEnum.PAYMENT))
                 .map(Transactions::getAmount)
                 .reduce(Double::sum).orElseThrow(()-> new IllegalStateException("no hay transacciones PAYMENT"));
+        Double depositArs = userAuthTransactionsArs
+                .stream()
+                .filter(transactions -> transactions.getTypeEnum().equals(TypeEnum.DEPOSIT))
+                .map(Transactions::getAmount)
+                .reduce(Double::sum).orElseThrow(()-> new IllegalStateException("no hay transacciones DEPOSIT"));
 
         Double incomeUsd = userAuthTransactionsUsd
                 .stream()
@@ -126,6 +131,11 @@ public class AccountService {
                 .filter(transactions -> transactions.getTypeEnum().equals(TypeEnum.PAYMENT))
                 .map(Transactions::getAmount)
                 .reduce(Double::sum).orElseThrow(()-> new IllegalStateException("no hay transacciones PAYMENT"));
+        Double depositUSD = userAuthTransactionsUsd
+                .stream()
+                .filter(transactions -> transactions.getTypeEnum().equals(TypeEnum.DEPOSIT))
+                .map(Transactions::getAmount)
+                .reduce(Double::sum).orElseThrow(()-> new IllegalStateException("no hay transacciones DEPOSIT"));
 
         List<FixedTermDeposit> fixedTerm = fixedTermDepositRepository.findByAccountIn(accountAuth);
         List<FixedTermDepositResponseDto> fixedTermDepositDTOs = fixedTerm.stream().map(ft ->{
@@ -146,8 +156,8 @@ public class AccountService {
                     transactions.getTransactionDate());
         }).toList();
         return new BalanceResponseDTO(
-                incomeArs - paymentArs,
-                incomeUsd - paymentUsd,
+                depositArs + incomeArs - paymentArs,
+                depositUSD + incomeUsd - paymentUsd,
                 transactionDTO,
                 fixedTermDepositDTOs
         ){};

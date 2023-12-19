@@ -39,11 +39,11 @@ public class AccountService {
         List<Account> listAccounts = accountRepository.getAccountsByUserId(userAuth.getId());
         List<AccountResponseDTO> listAccountsDTOs = listAccounts.stream().map(account -> {
             return new AccountResponseDTO(
+                    account.getId(),
                     account.getCurrencyEnum().name(),
                     account.getTransactionLimit(),
                     account.getBalance(),
-                    account.getUser().getId().toString(),
-                    account.getId().toString()
+                    account.getUser().getId().toString()
             );
         }).toList();
         return listAccountsDTOs;
